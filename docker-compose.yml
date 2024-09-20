@@ -1,5 +1,15 @@
 version: '3'
 services:
+  mysql:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: 1601
+      MYSQL_DATABASE: lessons
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
     environment:
@@ -42,5 +52,13 @@ services:
       - "8081:8081"
     env_file:
       - .env
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/lessons
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: 1601
     depends_on:
       - kafka
+      - mysql
+
+volumes:
+  mysql-data:
