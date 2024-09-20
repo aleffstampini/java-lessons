@@ -25,17 +25,18 @@ public class UserService {
         this.registerUser(userJson);
     }
 
-    @Cacheable(value = "users", key = "#userId")
-    public User getUserById(Long userId) {
-        return this.userRepository.findById(userId).orElse(null);
+    @Cacheable(value = "users", key = "#firstName + '-' + #lastName")
+    public User getUserByFirstNameAndLastName(String firstName, String lastName) {
+        return this.userRepository.findByFirstNameAndLastName(firstName, lastName);
     }
 
-    private void registerUser(String userJson) {
+    public void registerUser(String userJson) {
         try {
             User user = this.objectMapper.readValue(userJson, User.class);
 
-            if (this.getUserById(user.getUserId()) != null) {
-                log.info("User already registered: {}", user.getUserId());
+            User existingUser = this.getUserByFirstNameAndLastName(user.getFirstName(), user.getLastName());
+            if (existingUser != null) {
+                log.info("User already registered: {} {}", user.getFirstName(), user.getLastName());
                 return;
             }
 
