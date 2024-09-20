@@ -58,4 +58,5 @@ public class KafkaConfiguration {
         factory.setConsumerFactory(this.consumerFactory());
         return factory;
     }
+
 }

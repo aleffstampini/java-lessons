@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RequiredArgsConstructor
-@RestController("messages")
+@RestController
 public class KafkaController {
 
     private final KafkaProducerService kafkaProducerService;
@@ -19,4 +19,5 @@ public class KafkaController {
         this.kafkaProducerService.sendMessage(message);
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
 }
